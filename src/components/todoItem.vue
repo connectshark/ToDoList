@@ -1,6 +1,15 @@
 <template>
   <div class="todo-item">
     <div class="todo-content" @dblclick="editItem">
+      <input type="text"
+      class="edit-bar"
+      v-if="edit!==null"
+      v-model="edit"
+      @blur="cancelEdit"
+      @keyup.enter="comfirmEdit"
+      @keyup.esc="cancelEdit"
+      v-focus>
+      <template v-else>
       <label>
         <input type="checkbox" v-model="complete" />
         <span class="check">
@@ -9,6 +18,7 @@
         <span class="content">{{todoContent.content}}</span>
       </label>
       <i class="material-icons cancel" @click="deleteItem">clear</i>
+      </template>
     </div>
   </div>
 </template>
@@ -17,7 +27,9 @@
 export default {
   name: "todoItem",
   data() {
-    return {};
+    return {
+      edit:null,
+    };
   },
   props: {
     index: {
@@ -32,8 +44,21 @@ export default {
       }
     },
     editItem:function () {
-      
-    }
+      this.edit=this.todoContent.content
+    },
+    cancelEdit:function () {
+      this.edit=null
+    },
+    comfirmEdit:function(){
+      this.$store.commit('updateTodo',{
+        index:this.index,
+        data:{
+          content:this.edit,
+          complete:this.todoContent.complete
+        }
+      })
+      this.cancelEdit()
+    },
   },
   computed: {
     todoContent: function() {
@@ -70,6 +95,13 @@ export default {
     align-items: center;
     justify-content: flex-start;
     border-radius: 3px;
+    .edit-bar{
+      width: 90%;
+      border: 1px solid #ccc;
+      padding:4px 10px;
+      box-sizing: border-box;
+      font-size: 20px;
+    }
     label {
       display: flex;
       flex-flow: row nowrap;
