@@ -1,0 +1,15 @@
+@mixin  font{
+    @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap');
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+@mixin scroll-bar-hidden($div) {
+    ##{$div}{
+        scrollbar-width: none;
+    }
+    ::-webkit-scrollbar {
+        width: 0px;  /* Remove scrollbar space */
+        background: transparent;  /* Optional: just make scrollbar invisible */
+    }
+}
+    
