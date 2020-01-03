@@ -4,7 +4,7 @@
       <input type="text"
       class="edit-bar"
       v-if="edit!==null"
-      v-model="edit"
+      v-model.trim="edit"
       @blur="cancelEdit"
       @keyup.enter="comfirmEdit"
       @keyup.esc="cancelEdit"
@@ -50,6 +50,7 @@ export default {
       this.edit=null
     },
     comfirmEdit:function(){
+      if (this.edit==='') return
       this.$store.commit('updateTodo',{
         index:this.index,
         data:{
